@@ -143,7 +143,7 @@ e=a[0],c=a[2]):(d=a[2],e=a[0],c=a[1]);if(0>function(a,b,c){var d=b.x;b=b.y;retur
   
 </head>
 <body>
-PVC test2
+PVC test3
 <input type=text size=16 placeholder="Tracking Code" class=qrcode-text>
 <label class=qrcode-text-btn>
 <input type=file accept="image/*" capture=environment 
@@ -161,6 +161,24 @@ PVC test2
 
 <!-- Initialize Firebase -->
 <script src="/__/firebase/init.js"></script>
+
+<script>
+function saveToFirebase(email) {
+    var emailObject = {
+        email: email
+    };
+
+    firebase.database().ref('subscription-entries').push().set(emailObject)
+        .then(function(snapshot) {
+            success(); // some success method
+        }, function(error) {
+            console.log('error' + error);
+            error(); // some error method
+        });
+}
+
+saveToFirebase(email);
+</script>
 
 </body>
 </html>
