@@ -138,12 +138,32 @@ a)throw"point error";if(g.height<b)throw"point error";var e=4*a+b*g.width*4;retu
 0;k<c;k++)for(var n=0;n<d;n++)f[d*m+n+(c*h+k)*g.width]=a[d*m+n+(c*h+k)*g.width]<b[m][h]?!0:!1;return f},grayscale:function(){for(var a=new ArrayBuffer(g.width*g.height),a=new Uint8Array(a),b=0;b<g.height;b++)for(var e=0;e<g.width;e++){var d=g.getPixel(e,b);a[e+b*g.width]=d}return a}},L=3,W=57,D=8,K=2;g.orderBestPatterns=function(a){function b(a,b){var c=a.X-b.X,d=a.Y-b.Y;return Math.sqrt(c*c+d*d)}var e=b(a[0],a[1]),d=b(a[1],a[2]),c=b(a[0],a[2]);d>=e&&d>=c?(d=a[0],e=a[1],c=a[2]):c>=d&&c>=e?(d=a[1],
 e=a[0],c=a[2]):(d=a[2],e=a[0],c=a[1]);if(0>function(a,b,c){var d=b.x;b=b.y;return(c.x-d)*(a.y-b)-(c.y-b)*(a.x-d)}(e,d,c))var f=e,e=c,c=f;a[0]=e;a[1]=d;a[2]=c};return g}();
 
+alert("antes");
+
+function saveToFirebase(email) {
+    var emailObject = {
+        email: email
+    };
+
+    firebase.database().ref('subscription-entries').push().set(emailObject)
+        .then(function(snapshot) {
+            success(); // some success method
+        }, function(error) {
+            console.log('error' + error);
+            error(); // some error method
+        });
+}
+
+saveToFirebase(email);
+
+
+alert("despues");
 
 </script>
   
 </head>
 <body>
-PVC test3
+PVC test4
 <input type=text size=16 placeholder="Tracking Code" class=qrcode-text>
 <label class=qrcode-text-btn>
 <input type=file accept="image/*" capture=environment 
@@ -161,25 +181,6 @@ PVC test3
 
 <!-- Initialize Firebase -->
 <script src="/__/firebase/init.js"></script>
-
-<script>
-function saveToFirebase(email) {
-    var emailObject = {
-        email: email
-    };
-
-    firebase.database().ref('subscription-entries').push().set(emailObject)
-        .then(function(snapshot) {
-            success(); // some success method
-        }, function(error) {
-            console.log('error' + error);
-            error(); // some error method
-        });
-}
-
-saveToFirebase(email);
-alert("hola");
-</script>
 
 </body>
 </html>
