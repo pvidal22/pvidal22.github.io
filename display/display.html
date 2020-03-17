@@ -1,0 +1,109 @@
+<html>
+
+<head>
+
+ <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-firestore.js"></script>
+ 
+ <style>
+body, input {font-size:14pt}
+input, label {vertical-align:middle}
+.qrcode-text {padding-right:1.7em; margin-right:0}
+.qrcode-text-btn {display:inline-block; background:url(//dab1nmslvvntp.cloudfront.net/wp-content/uploads/2017/07/1499401426qr_icon.svg) 50% 50% no-repeat; height:1em; width:1.7em; margin-left:-1.7em; cursor:pointer}
+.qrcode-text-btn > input[type=file] {position:absolute; overflow:hidden; width:1px; height:1px; opacity:0}
+</style>
+
+<script>
+var sApp = '';
+var sCode = '';
+const sFieldSeparator = ';;';
+const sValueSeparator = '==';
+var iRow = 0;
+
+</script>
+
+</head>
+
+<body>
+
+<br/><br/><br/><br/><br/><br/>
+
+<h1 style="background-color:blue;color:white;text-align:center" ><span lang=EN-US>Information on the Database</span></h1>
+
+<br/><br/>
+
+<table id='dbdata' border=1 align='center'></ul>
+
+<script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDGEBqwNfUB53HqrFFa1d3WUgHh478Ztok",
+    authDomain: "test1-cc255.firebaseapp.com",
+    databaseURL: "https://test1-cc255.firebaseio.com",
+    projectId: "test1-cc255",
+    storageBucket: "test1-cc255.appspot.com",
+    messagingSenderId: "1021016989855",
+    appId: "1:1021016989855:web:49641a86abcd0b93e4c2aa",
+    measurementId: "G-4CW2HZ0V05"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  //db.settings({timestampsInSnapshots:true});
+  firebase.analytics();
+</script>
+
+<script>
+
+function renderRecord(record)
+{
+	let tr = document.createElement('tr');	
+	let trh = document.createElement('tr');	
+			
+	tr.setAttribute('data-id', record.id);
+	var lsRecordText = record.data().data;
+	
+	if (lsRecordText.toLowerCase() == "dummy") 
+		return;
+		
+	var lasText = lsRecordText.split(sFieldSeparator);
+	var lii = 0;
+	for (lii = 0; lii < lasText.length; lii++)
+	{
+		if (!lasText[lii].includes(sValueSeparator))
+			continue;
+		
+		let td = document.createElement('td');
+		let th = document.createElement('th');
+		let colData = document.createElement('span');		
+		colData.textContent = lasText[lii].split(sValueSeparator)[1];
+		th.innerHTML = lasText[lii].split(sValueSeparator)[0];
+		td.appendChild(colData);
+		tr.appendChild(td);	
+		trh.appendChild(th);
+	}	
+
+	if (iRow == 0)
+		dbdata.appendChild(trh);	
+	dbdata.appendChild(tr);
+	iRow++;
+}
+
+
+// Getting data
+db.collection('info').get().then((snapshot) =>{
+	//console.log(snapshot.docs);
+	snapshot.docs.forEach(record => {
+		console.log(record.data());
+		renderRecord(record);
+	})
+})
+
+</script>
+
+</body>
+
+</html>
