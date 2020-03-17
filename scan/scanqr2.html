@@ -1,12 +1,6 @@
 <html>
-
 <head>
-
- <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-firestore.js"></script>
- 
- <style>
+<style>
 body, input {font-size:14pt}
 input, label {vertical-align:middle}
 .qrcode-text {padding-right:1.7em; margin-right:0}
@@ -15,48 +9,20 @@ input, label {vertical-align:middle}
 </style>
 
 <script>
-var sApp = '';
-var sCode = '';
-const sSeparator = ';;';
-function openQRCamera(node) 
-{
+function openQRCamera(node) {
   var reader = new FileReader();
-  
-  reader.onload = function() 
-  {
-	node.value = "";
-    qrcode.callback = function(res) 
-	{
-      if(res instanceof Error) 
-	  {
+  reader.onload = function() {
+    node.value = "";
+    qrcode.callback = function(res) {
+      if(res instanceof Error) {
         alert("No QR code found. Please make sure the QR code is within the camera's frame and try again.");
-      } 
-	  else 
-	  {
+      } else {
         node.parentNode.previousElementSibling.value = res;
-		var lsRxCode = document.getElementById('qrdatactrl').value;
-		var las = lsRxCode.split(sSeparator);
-		if (las.length > 2)
-		{
-			sApp = las[0];
-			sCode = las[1];
-			las.shift();
-			las.shift();			
-		}
-		else
-		{
-			sApp = '';
-			sCode = '';
-		}		
-		lsRxCode = las.join(sSeparator);
-		console.log(lsRxCode);
-		document.getElementById('qrdatactrl').value = lsRxCode;
-	  }
+      }
     };
     qrcode.decode(reader.result);
-	
   };
-  reader.readAsDataURL(node.files[0]); 
+  reader.readAsDataURL(node.files[0]);
 }
 
 function showQRIntro()
@@ -174,90 +140,15 @@ e=a[0],c=a[2]):(d=a[2],e=a[0],c=a[1]);if(0>function(a,b,c){var d=b.x;b=b.y;retur
 
 
 </script>
-
+  
 </head>
-
-<body>
-
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-
-<h1 style="background-color:blue;color:white;text-align:center" ><span lang=EN-US>Scan or load your QR code with the following option</span></h1>
-
-<br/><br/><br/>
-<form id="qrform" style="text-align:center;">
-	<input name="qrdata" id="qrdatactrl" type=text size=1 placeholder="Scanned Code" class=qrcode-text disabled> <!-- enabled -->
-		<label class=qrcode-text-btn>
-			<input type=file accept="image/*" capture=environment 
-				onclick="return showQRIntro();" 
-				onchange="openQRCamera(this);" tabindex=-1>
-		</label> 
-	</input>
-	<button>Request code</button>
-</form>
-
-<ul id="CodeToEnter"></ul>
-
-<script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-analytics.js"></script>
-
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyDGEBqwNfUB53HqrFFa1d3WUgHh478Ztok",
-    authDomain: "test1-cc255.firebaseapp.com",
-    databaseURL: "https://test1-cc255.firebaseio.com",
-    projectId: "test1-cc255",
-    storageBucket: "test1-cc255.appspot.com",
-    messagingSenderId: "1021016989855",
-    appId: "1:1021016989855:web:49641a86abcd0b93e4c2aa",
-    measurementId: "G-4CW2HZ0V05"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  //db.settings({timestampsInSnapshots:true});
-  firebase.analytics();
-</script>
-
-
-<script>
-
-const form = document.querySelector('#qrform');
-
-// Saving data
-form.addEventListener('submit', (e) => 
-	{
-		e.preventDefault();
-		
-		if (sApp != "cinflicense")
-		{
-			alert("This QR does not correspond to a cobas infinity license");
-			form.qrdata.value = '';
-			return;
-		}
-		
-		var liCodeToReturn = parseInt(sCode, 10);
-		liCodeToReturn+= 10;
-		
-		// could be used as well form.qrdata.value
-		db.collection('info').add({
-			data: document.getElementById('qrdatactrl').value   
-		});
-		form.qrdata.value = '';
-		var li = document.createElement('li');
-		var code = document.createElement('span');
-		code.textContent = "Code to enter: " + liCodeToReturn ;
-		li.appendChild(code);
-		while (CodeToEnter.firstChild)
-		{
-			CodeToEnter.removeChild(CodeToEnter.firstChild);
-		}
-		confirm("Data properly stored");
-		CodeToEnter.appendChild(li);
-		
-	})
-
-</script>
-
-</body>
-
+PVC test 1 </br>
+<input type=text size=1 placeholder="Scanned Code" class=qrcode-text>
+	<label class=qrcode-text-btn>
+		<input type=file accept="image/*" capture=environment 
+			onclick="return showQRIntro();" 
+			onchange="openQRCamera(this);" tabindex=-1>
+	</label> 
+</input>
+<!-- <input type=button value="Go" disabled> -->
 </html>

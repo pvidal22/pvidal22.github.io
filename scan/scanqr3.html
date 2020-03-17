@@ -15,16 +15,14 @@ input, label {vertical-align:middle}
 </style>
 
 <script>
-var sApp = '';
-var sCode = '';
-const sSeparator = ';;';
+var lsRxCode = ''
 function openQRCamera(node) 
 {
+	console.log("hola majo");
   var reader = new FileReader();
-  
   reader.onload = function() 
   {
-	node.value = "";
+    node.value = "";
     qrcode.callback = function(res) 
 	{
       if(res instanceof Error) 
@@ -34,34 +32,23 @@ function openQRCamera(node)
 	  else 
 	  {
         node.parentNode.previousElementSibling.value = res;
-		var lsRxCode = document.getElementById('qrdatactrl').value;
-		var las = lsRxCode.split(sSeparator);
-		if (las.length > 2)
-		{
-			sApp = las[0];
-			sCode = las[1];
-			las.shift();
-			las.shift();			
-		}
-		else
-		{
-			sApp = '';
-			sCode = '';
-		}		
-		lsRxCode = las.join(sSeparator);
-		console.log(lsRxCode);
-		document.getElementById('qrdatactrl').value = lsRxCode;
-	  }
+      }
     };
     qrcode.decode(reader.result);
-	
   };
-  reader.readAsDataURL(node.files[0]); 
+  reader.readAsDataURL(node.files[0]);
 }
 
 function showQRIntro()
 {
 	return confirm("Use your camera to take a picture of a QR code.");
+}
+
+function cleanPartOfContent(pTest)
+{
+	alert(pTest);
+	//var epp = document.getElementById('qrdatactrl').value;
+	//console.log("hola: " + epp);
 }
 
 /* Packed with Google Closure
@@ -189,7 +176,7 @@ e=a[0],c=a[2]):(d=a[2],e=a[0],c=a[1]);if(0>function(a,b,c){var d=b.x;b=b.y;retur
 		<label class=qrcode-text-btn>
 			<input type=file accept="image/*" capture=environment 
 				onclick="return showQRIntro();" 
-				onchange="openQRCamera(this);" tabindex=-1>
+				onchange="openQRCamera(this);cleanPartOfContent('pedrito');" tabindex=-1>
 		</label> 
 	</input>
 	<button>Request code</button>
@@ -228,14 +215,16 @@ form.addEventListener('submit', (e) =>
 	{
 		e.preventDefault();
 		
-		if (sApp != "cinflicense")
+		var lsText = form.qrdata.value;
+		var lasText = lsText.split(";;");
+		if (lasText[0] != "cinflicense")
 		{
 			alert("This QR does not correspond to a cobas infinity license");
 			form.qrdata.value = '';
 			return;
 		}
 		
-		var liCodeToReturn = parseInt(sCode, 10);
+		var liCodeToReturn = parseInt(lasText[1], 10);
 		liCodeToReturn+= 10;
 		
 		// could be used as well form.qrdata.value
