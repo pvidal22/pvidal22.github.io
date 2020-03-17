@@ -68,7 +68,7 @@ function SearchFunction()
   for (i = 0; i < tr.length; i++) 
   {
 	tds = tr[i].getElementsByTagName("td");
-	var lbDisplay = false;
+	var lbDisplay = tds.length > 0?false:true; // To cover as well the header that does not have td but th
 	for (lig = 0; lig < tds.length; lig++)
 	{
 		td = tds[lig];
