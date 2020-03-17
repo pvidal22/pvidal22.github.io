@@ -14,7 +14,14 @@ input, label {vertical-align:middle}
   
 </head>
 <body>
-PVC test7
+PVC test10
+
+<form id="addmailform">
+	<input type="text" name="email" placeholder="EmAil name">
+	<button>Add email</button>
+</form>
+
+<ul id="milista"></ul>
 
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
@@ -44,6 +51,8 @@ PVC test7
 <script>
 alert("antes");
 
+const form = document.querySelector('#addmailform');
+
 function renderDocs(doc)
 {
 	let li = document.createElement('li');
@@ -52,7 +61,9 @@ function renderDocs(doc)
 	li.setAttribute('data-id', doc.id);
 	name.textContent = doc.data().email;
 	
-	document.write("<p>" + name.textContent + "</p>");
+	//document.write("<p>" + name.textContent + "</p>");
+	li.appendChild(name);
+	milista.appendChild(li);
 	
 }
 
@@ -71,6 +82,7 @@ function saveToFirebase(email) {
         });
 */
 	
+	// Getting data
 	var tt = db.collection('t1').get().then((snapshot) =>{
 		//console.log(snapshot.docs);
 		snapshot.docs.forEach(doc => {
@@ -84,6 +96,16 @@ function saveToFirebase(email) {
 
 alert("medio antes");
 saveToFirebase("p@v.c");
+
+// Saving data
+form.addEventListener('submit', (e) => {
+	e.preventDefault();
+	db.collection('t1').add({
+		email: form.email.value
+	});
+	form.email.value = '';
+	
+})
 
 
 alert("despues");
