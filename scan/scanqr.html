@@ -253,7 +253,7 @@ form.addEventListener('submit', (e) =>
 		form.qrdata.value = '';
 		var li = document.createElement('li');
 		var code = document.createElement('span');
-		code.textContent = "Code to enter: " + liCodeToReturn + "(" + sCode + ")";
+		code.textContent = "Code to enter: " + liCodeToReturn; // + "(" + sCode + ")";
 		li.appendChild(code);
 		while (CodeToEnter.firstChild)
 		{
