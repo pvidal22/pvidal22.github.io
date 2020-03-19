@@ -242,7 +242,8 @@ form.addEventListener('submit', (e) =>
 			return;
 		}
 		
-		var liCodeToReturn = parseInt(sCode, 10);
+		//var liCodeToReturn = parseInt(sCode, 10);
+		var liCodeToReturn = +sCode,
 		liCodeToReturn+= 10;
 		
 		// could be used as well form.qrdata.value
